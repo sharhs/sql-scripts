@@ -8,6 +8,23 @@ WITH PERMISSION_SET = EXTERNAL_ACCESS
 GO
 
 
+SET ANSI_NULLS OFF
+GO
+SET QUOTED_IDENTIFIER OFF
+GO
+CREATE FUNCTION [File].[Find](@Directory [nvarchar](4000), @Pattern [nvarchar](4000) = N'*.*')
+RETURNS  TABLE (
+	[FileName] [nvarchar](4000) NULL,
+	[Length] [bigint] NULL,
+	[IsDirectory] [bit] NULL,
+	[CreateTime] [datetime] NULL,
+	[LastAccessTime] [datetime] NULL,
+	[LastWriteTime] [datetime] NULL,
+	[Attributes] [nvarchar](100) NULL
+) WITH EXECUTE AS CALLER
+AS 
+EXTERNAL NAME [UDP.FileIO].[FileIO].[GetFileList]
+GO
 
 
 [BD-SRV-TTN-CL1].[opendb].[File].[Find]
